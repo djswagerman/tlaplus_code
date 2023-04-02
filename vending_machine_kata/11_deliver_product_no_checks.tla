@@ -74,7 +74,7 @@ Init ==
                                             [
                                                 assets |->
                                                     [
-                                                        credit |-> CHOOSE f \in [cointypes -> {d: d \in 0..max_coin_stock}] : \A coin \in cointypes : f[coin] = 2,
+                                                        credit |-> CHOOSE f \in [cointypes -> {d: d \in 0..max_coin_stock}] : \A coin \in cointypes : f[coin] = 3,
                                                         bank |-> CHOOSE f \in [cointypes -> {d: d \in 0..max_coin_stock}] : \A coin \in cointypes : f[coin] = 0,
                                                         product |-> CHOOSE p \in [DOMAIN products -> {d: d \in 0..max_product_stock}] : \A product_name \in DOMAIN products : p[product_name] = 0
                                                     ]
