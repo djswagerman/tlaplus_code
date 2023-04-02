@@ -6,6 +6,7 @@ _model/
 # TLA+ model checker output files
 *.tla.graph
 *.dot
+*.out
 *.png
 *.pdf
 *.svg

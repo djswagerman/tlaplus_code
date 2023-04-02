@@ -11,6 +11,7 @@ Init ==
 Next ==
     /\ x' = x + 1
 
+\* This spec does not terminate.
 Spec ==
     Init /\ [][Next]_<<x>>
 
