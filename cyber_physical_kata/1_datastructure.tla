@@ -8,6 +8,10 @@ VARIABLES environment
 
 Null == 0  \* Null is defined as a value not in ComponentIds
 
+Board == [
+  id: Nat,
+  positions: SUBSET [x: Nat, y: Nat, type: ComponentTypes]
+]
 
 TypeInvariant ==
     /\ environment \in [BoardIds -> [positions: [BoardPositions -> ComponentIds \cup {Null}]]]
