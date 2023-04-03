@@ -20,4 +20,7 @@ ConstMaxY == 2
 InvariantNonEmpty ==
     NonEmptyPositions (environment) < 5
 
+InvariantConstantNumberOfBoards ==
+    CountBoards (environment) + CountBoards (system) =  Cardinality (ConstBoardIds) 
+
 ====
