@@ -12,7 +12,6 @@ TypeInvariant ==
     /\ environment \in [boards: [BoardIds -> [positions: [BoardPositions -> ComponentIds \cup {Null}]]]]
 
 Init ==
-    /\ system =
     /\ environment = [boards |-> [b \in BoardIds |-> [positions |-> [p \in BoardPositions |-> Null]]]]
 
 (* Action to place a component at a specific position on a board *)
