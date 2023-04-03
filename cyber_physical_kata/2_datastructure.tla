@@ -1,4 +1,4 @@
----- MODULE 2_datastructure ----
+---- MODULE 2_datastructure --------
 
 EXTENDS Integers, Sequences, FiniteSets, TLC
 
@@ -8,16 +8,12 @@ VARIABLES environment
 
 Null == [c0 |-> ""]
 
-Board == [
-  id: Nat,
-  positions: SUBSET [x: Nat, y: Nat, type: ComponentTypes]
-]
-
 TypeInvariant ==
     /\ environment \in [boards: [BoardIds -> [positions: [BoardPositions -> ComponentIds \cup {Null}]]]]
 
 Init ==
-    environment = [boards |-> [b \in BoardIds |-> [positions |-> [p \in BoardPositions |-> Null]]]]
+    /\ system =
+    /\ environment = [boards |-> [b \in BoardIds |-> [positions |-> [p \in BoardPositions |-> Null]]]]
 
 (* Action to place a component at a specific position on a board *)
 PlaceComponent(boardId, componentId, position) ==
