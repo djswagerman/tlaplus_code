@@ -2,48 +2,90 @@
 
 EXTENDS Integers, Sequences, FiniteSets, TLC, 99_utils
 
-CONSTANT ComponentTypes, BoardIds, BoardPositions, RobotIds, BoardState, RecipeIds, Recipes, BoardRecipe, LocationIds, FeederIds, ReelIds
+CONSTANT
+    ComponentTypes,
+    BoardIds,
+    BoardPositions,
+    RobotIds,
+    BoardState,
+    RecipeIds,
+    Recipes,
+    BoardRecipe,
+    LocationIds,
+    FeederIds,
+    ReelIds,
+    MaxComponents,
+    ProductionLocations
 
 VARIABLES environment, system
 
 Null == ""
 
-TypeInvariant ==
-    /\ environment \in
-        [
-            boards: SUBSET  [
+ValidBoards (boards) ==
+    boards \in SUBSET       [
                                 id: BoardIds,
                                 state: BoardState,
                                 positions: [BoardPositions -> ComponentTypes \cup {Null}]
-                            ],
-            boardrecipe:    [
-                                BoardIds -> STRING
-                            ] \cup { [b \in BoardIds |-> ""] },
-            recipes: SUBSET [
+                            ]
+
+ValidRecipes (recipes) ==
+    recipes \in SUBSET      [
                                 id: RecipeIds,
-                                positions: [SUBSET {[position |-> p, component |-> c] : p \in BoardPositions, c \in ComponentTypes \cup {Null}} -> ComponentTypes \cup {Null}]
-                            ],
-            production_locations: SUBSET
+                                positions:
+                                        [
+                                            SUBSET
+                                            {
+                                                [   position |-> p,
+                                                    component |-> c
+                                                ] : p \in BoardPositions, c \in ComponentTypes \cup {Null}
+                                            } -> ComponentTypes \cup {Null}
+                                        ]
+                            ]
+
+ValidBoardRecipe (boardrecipe) ==
+     boardrecipe \in        [
+                                BoardIds -> STRING
+                            ] \cup { [b \in BoardIds |-> ""] }
+
+ValidProductionLocations (production_locations) ==
+    production_locations \in SUBSET
                             [
                                 id: LocationIds,
                                 feeders:
                                 [
-                                    SUBSET
-                                    [
-                                        id: FeederIds,
-                                        reels: STRING
-                                    ] -> FeederIds
+                                    id : FeederIds,
+                                    reels:
+                                        SUBSET
+                                        {
+                                            [
+                                                id : ReelIds,
+                                                componentType : ComponentTypes,
+                                                remainingComponents : MaxComponents
+                                            ]
+                                        }
                                 ]
                             ]
-        ]
 
+TypeInvariantSystem (sys) ==
+    /\ ValidBoards (sys.boards)
+    /\ ValidRecipes (sys.recipes)
+    /\ ValidProductionLocations (sys.production_locations)
+
+TypeInvariantEnvironment (env) ==
+    /\ ValidBoards (env.boards)
+    /\ ValidRecipes (env.recipes)
+
+TypeInvariant ==
+    /\ TypeInvariantEnvironment (environment)
+    /\ TypeInvariantSystem (system)
 
 Init ==
     /\ system =
         [
             boards |-> {},
             boardrecipe |-> [b \in BoardIds |-> ""],
-            recipes |-> {}
+            recipes |-> {},
+            production_locations |-> ProductionLocations
         ]
     /\ environment =
         [
