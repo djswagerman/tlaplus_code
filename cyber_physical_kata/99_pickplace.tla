@@ -45,6 +45,10 @@ Init ==
             recipes |-> Recipes
         ]
 
+GetPositionsForRecipe(x, rid) ==
+    LET selectedRecipe == CHOOSE r \in x.recipes : r.id = rid
+    IN selectedRecipe.positions
+    
 MoveBoard(boardId) ==
     /\ \E board \in environment.boards : board.id = boardId
     /\ LET movedBoard == CHOOSE board \in environment.boards : board.id = boardId
