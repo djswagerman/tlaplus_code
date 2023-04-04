@@ -5,7 +5,7 @@ EXTENDS 99_pickplace, TLC
 ConstComponentTypes == {"Resistor", "Conductor", "IC"}
 ConstBoardIds == {"b1", "b2","b3", "b4"}
 ConstRobotIds== {"r1", "r2","r3", "r4"}
-ConstRecipeIds == {"recipe1", "recipe2"}
+ConstRecipeIds == {"Recipe1", "Recipe2", "Recipe3"}
 ConstBoardPositions ==  {
                             [x |-> 0, y |-> 0],
                             [x |-> 0, y |-> 1],
