@@ -2,11 +2,11 @@
 
 EXTENDS Integers, Sequences, FiniteSets, TLC, 99_utils
 
-CONSTANT ComponentTypes, BoardIds, BoardPositions, RobotIds, ComponentIds, BoardState
+CONSTANT ComponentTypes, BoardIds, BoardPositions, RobotIds, BoardState, RecipeIds, Recipes
 
 VARIABLES environment, system
 
-Null == [c0 |-> ""]
+Null == ""
 
 TypeInvariant ==
     /\ environment \in
@@ -14,11 +14,15 @@ TypeInvariant ==
             boards: SUBSET  [
                                 id: BoardIds,
                                 state: BoardState,
-                                positions: [BoardPositions -> ComponentIds \cup {Null}]
+                                positions: [BoardPositions -> ComponentTypes \cup {Null}]
                             ],
             boardrecipe:    [
                                 BoardIds -> STRING
-                            ] \cup { [b \in BoardIds |-> ""] }
+                            ] \cup { [b \in BoardIds |-> ""] },
+            recipes: SUBSET [
+                                id: RecipeIds,
+                                positions: [SUBSET {[position |-> p, component |-> c] : p \in BoardPositions, c \in ComponentTypes \cup {Null}} -> ComponentTypes \cup {Null}]
+                            ]
         ]
 
 
@@ -26,7 +30,8 @@ Init ==
     /\ system =
         [
             boards |-> {},
-            boardrecipe |-> [b \in BoardIds |-> ""]
+            boardrecipe |-> [b \in BoardIds |-> ""],
+            recipes |-> {}
         ]
     /\ environment =
         [
@@ -36,7 +41,8 @@ Init ==
                                 positions |-> [p \in BoardPositions |-> Null]
                             ] : b \in BoardIds
                         },
-            boardrecipe |-> [b \in BoardIds |-> ""]
+            boardrecipe |-> [b \in BoardIds |-> ""],
+            recipes |-> Recipes
         ]
 
 MoveBoard(boardId) ==
@@ -49,6 +55,6 @@ MoveBoard(boardId) ==
      /\ system' = updatedSystem
 
 Next ==
-    \E boardId \in BoardIds: MoveBoard(boardId)
+    \/ \E boardId \in BoardIds: MoveBoard(boardId)
 
 =====

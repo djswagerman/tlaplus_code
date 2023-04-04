@@ -5,17 +5,44 @@ EXTENDS 99_pickplace, TLC
 ConstComponentTypes == {"Resistor", "Conductor", "IC"}
 ConstBoardIds == {"b1", "b2","b3", "b4"}
 ConstRobotIds== {"r1", "r2","r3", "r4"}
+ConstRecipeIds == {"recipe1", "recipe2"}
 ConstBoardPositions ==  {
                             [x |-> 0, y |-> 0],
                             [x |-> 0, y |-> 1],
                             [x |-> 1, y |-> 0],
                             [x |-> 1, y |-> 1]
                         }
-ConstComponentIds ==    {
-                        [c1 |-> "Resistor"], 
-                        [c2 |-> "IC"]
-                        }
 
+ConstRecipes ==     {
+                        [
+                            id |-> "Recipe1",
+                            positions |-> {
+                                [position |-> [x |-> 0, y |-> 0], component |-> "Resistor"],
+                                [position |-> [x |-> 0, y |-> 1], component |-> "Conductor"],
+                                [position |-> [x |-> 1, y |-> 0], component |-> "IC"],
+                                [position |-> [x |-> 1, y |-> 1], component |-> ""]
+                            }
+                        ],
+                        [
+                            id |-> "Recipe2",
+                            positions |-> {
+                                [position |-> [x |-> 0, y |-> 0], component |-> "IC"],
+                                [position |-> [x |-> 0, y |-> 1], component |-> ""],
+                                [position |-> [x |-> 1, y |-> 0], component |-> "Resistor"],
+                                [position |-> [x |-> 1, y |-> 1], component |-> "Conductor"]
+                            }
+                        ],
+                        [
+                            id |-> "Recipe3",
+                            positions |-> {
+                                [position |-> [x |-> 0, y |-> 0], component |-> Null],
+                                [position |-> [x |-> 0, y |-> 1], component |-> "IC"],
+                                [position |-> [x |-> 1, y |-> 0], component |-> "Conductor"],
+                                [position |-> [x |-> 1, y |-> 1], component |-> "Resistor"]
+                            }
+                        ]
+                    }
+                        
 ConstBoardState ==  {"Unprocessed", "Processing", "Processed"}
 
 ConstMaxX == 2
@@ -30,17 +57,11 @@ NonEmptyPositions(x) ==
     SumSeq(SetToSeq(nonEmptyCounts, <<>>))
     
 CountBoards(x) ==
-    IF x \in
-        [
-            boards: SUBSET  [
+    IF x.boards \in SUBSET  [
                                 id: BoardIds,
                                 state: BoardState,
-                                positions: [BoardPositions -> ComponentIds \cup {Null}]
-                            ],
-            boardrecipe:    [
-                                BoardIds -> STRING
-                            ] \cup { [b \in BoardIds |-> ""] }
-        ]
+                                positions: [BoardPositions -> ComponentTypes \cup {Null}]
+                            ]
         THEN 
             Cardinality(x.boards)
     ELSE 0
