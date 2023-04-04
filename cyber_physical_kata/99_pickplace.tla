@@ -9,13 +9,24 @@ VARIABLES environment, system
 Null == [c0 |-> ""]
 
 TypeInvariant ==
-    /\ environment \in [boards: SUBSET [id: BoardIds, state: BoardState, positions: [BoardPositions -> ComponentIds \cup {Null}]]]
+    /\ environment \in
+        [
+            boards: SUBSET  [
+                                id: BoardIds,
+                                state: BoardState,
+                                positions: [BoardPositions -> ComponentIds \cup {Null}]
+                            ],
+            boardrecipe:    [
+                                BoardIds -> STRING
+                            ] \cup { [b \in BoardIds |-> ""] }
+        ]
 
 
 Init ==
     /\ system =
         [
-            boards |-> {}
+            boards |-> {},
+            boardrecipe |-> [b \in BoardIds |-> ""]
         ]
     /\ environment =
         [
@@ -24,7 +35,8 @@ Init ==
                                 state |-> "Unprocessed",
                                 positions |-> [p \in BoardPositions |-> Null]
                             ] : b \in BoardIds
-                        }
+                        },
+            boardrecipe |-> [b \in BoardIds |-> ""]
         ]
 
 MoveBoard(boardId) ==
