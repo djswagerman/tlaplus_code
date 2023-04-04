@@ -21,7 +21,7 @@ ConstRecipes ==     {
                                 [position |-> [x |-> 0, y |-> 1], component |-> "Conductor"],
                                 [position |-> [x |-> 1, y |-> 0], component |-> "IC"],
                                 [position |-> [x |-> 1, y |-> 1], component |-> ""]
-                            }
+                            }\
                         ],
                         [
                             id |-> "Recipe2",
@@ -51,6 +51,13 @@ ConstBoardRecipe ==     [
                         ]
 
 ConstBoardState ==  {"Unprocessed", "Processing", "Processed"}
+
+ConstLocationIds == {"production location 1", "production_location 2"}
+
+ConstFeederIds == {"f1", "f2"}
+
+ConstReelIds== {"r1", "r2"}
+
 
 ConstMaxX == 2
 ConstMaxY == 2

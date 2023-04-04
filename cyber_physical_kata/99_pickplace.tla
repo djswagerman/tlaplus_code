@@ -2,7 +2,7 @@
 
 EXTENDS Integers, Sequences, FiniteSets, TLC, 99_utils
 
-CONSTANT ComponentTypes, BoardIds, BoardPositions, RobotIds, BoardState, RecipeIds, Recipes, BoardRecipe
+CONSTANT ComponentTypes, BoardIds, BoardPositions, RobotIds, BoardState, RecipeIds, Recipes, BoardRecipe, LocationIds, FeederIds, ReelIds
 
 VARIABLES environment, system
 
@@ -22,6 +22,18 @@ TypeInvariant ==
             recipes: SUBSET [
                                 id: RecipeIds,
                                 positions: [SUBSET {[position |-> p, component |-> c] : p \in BoardPositions, c \in ComponentTypes \cup {Null}} -> ComponentTypes \cup {Null}]
+                            ],
+            production_locations: SUBSET
+                            [
+                                id: LocationIds,
+                                feeders:
+                                [
+                                    SUBSET
+                                    [
+                                        id: FeederIds,
+                                        reels: STRING
+                                    ] -> FeederIds
+                                ]
                             ]
         ]
 
