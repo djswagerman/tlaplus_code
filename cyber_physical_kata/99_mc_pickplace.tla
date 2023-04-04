@@ -35,14 +35,21 @@ ConstRecipes ==     {
                         [
                             id |-> "Recipe3",
                             positions |-> {
-                                [position |-> [x |-> 0, y |-> 0], component |-> Null],
+                                [position |-> [x |-> 0, y |-> 0], component |-> ""],
                                 [position |-> [x |-> 0, y |-> 1], component |-> "IC"],
                                 [position |-> [x |-> 1, y |-> 0], component |-> "Conductor"],
                                 [position |-> [x |-> 1, y |-> 1], component |-> "Resistor"]
                             }
                         ]
                     }
-                        
+
+ConstBoardRecipe ==     [
+                            x \in {"b1", "b2", "b3"} |-> IF x = "b1" THEN "Recipe3"
+                                ELSE IF x = "b2" THEN "Recipe1"
+                                ELSE IF x = "b3" THEN "Recipe2"
+                                ELSE ""
+                        ]
+
 ConstBoardState ==  {"Unprocessed", "Processing", "Processed"}
 
 ConstMaxX == 2

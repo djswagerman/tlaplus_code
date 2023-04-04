@@ -2,7 +2,7 @@
 
 EXTENDS Integers, Sequences, FiniteSets, TLC, 99_utils
 
-CONSTANT ComponentTypes, BoardIds, BoardPositions, RobotIds, BoardState, RecipeIds, Recipes
+CONSTANT ComponentTypes, BoardIds, BoardPositions, RobotIds, BoardState, RecipeIds, Recipes, BoardRecipe
 
 VARIABLES environment, system
 
@@ -41,7 +41,7 @@ Init ==
                                 positions |-> [p \in BoardPositions |-> Null]
                             ] : b \in BoardIds
                         },
-            boardrecipe |-> [b \in BoardIds |-> ""],
+            boardrecipe |-> BoardRecipe,
             recipes |-> Recipes
         ]
 
