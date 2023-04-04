@@ -1,4 +1,4 @@
----- MODULE 2_datastructure --------
+---- MODULE 02_datastructure --------
 
 EXTENDS Integers, Sequences, FiniteSets, TLC
 

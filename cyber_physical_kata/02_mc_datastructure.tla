@@ -1,6 +1,6 @@
------------------ MODULE 2_mc_datastructure -----------------
+----------------- MODULE 02_mc_datastructure -----------------
 
-EXTENDS 2_datastructure
+EXTENDS 02_datastructure
 
 ConstComponentTypes == {"Resistor", "Conductor", "IC"}
 ConstBoardIds == {"b1", "b2","b3", "b4"}
@@ -15,6 +15,7 @@ ConstComponentIds ==    {
                         [c1 |-> "Resistor"], 
                         [c2 |-> "IC"]
                         }
+
 ConstMaxX == 2
 ConstMaxY == 2
 InvariantNonEmpty ==

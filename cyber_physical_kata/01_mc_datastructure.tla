@@ -1,6 +1,6 @@
------------------ MODULE 1_mc_datastructure -----------------
+----------------- MODULE 01_mc_datastructure -----------------
 
-EXTENDS 1_datastructure
+EXTENDS 01_datastructure
 
 ConstComponentTypes == {"Resistor", "Conductor", "IC"}
 ConstBoardIds == {"b1", "b2","b3", "b4"}
