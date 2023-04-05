@@ -91,8 +91,7 @@ Init ==
             boards |-> {},
             boardrecipe |-> [b \in BoardIds |-> ""],
             recipes |-> {},
-            production_locations |-> ProductionLocations,
-            t |-> {}
+            production_locations |-> ProductionLocations
         ]
     /\ environment =
         [
@@ -108,15 +107,14 @@ Init ==
         ]
 
 Next ==
-    \* Transport
-    \/ \E boardId \in BoardIds: MoveBoard(boardId, environment, system)
-
     \* Scheduling
     \/ \E boardId \in BoardIds: SetRecipeForBoard (boardId, environment, system)
+    \/ DownloadRecipes (environment, system)
 
     \* Operator actions
-    \/ PlaceReel(environment, system)
-    \/ \E recipe \in { SetToSeq(environment.recipes, <<>>)[i] : i \in 1..Cardinality(environment.recipes) }:
-        DownloadRecipe(recipe, environment, system)
+    \/ PlaceReels(environment, system)
+
+    \* Transport
+    \/ \E boardId \in BoardIds: MoveBoard(boardId, environment, system)
 
 =====

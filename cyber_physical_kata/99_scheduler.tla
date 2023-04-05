@@ -1,6 +1,6 @@
 ----------------- MODULE 99_scheduler -----------------
 
-EXTENDS Integers, Sequences, FiniteSets, TLC
+EXTENDS Integers, Sequences, FiniteSets, TLC, 99_utils
 
 
 SetRecipeForBoard(boardId, env, sys) ==
@@ -16,6 +16,12 @@ DownloadRecipe (recipe, env, sys) ==
     /\ env' =  [
             env EXCEPT !.recipes = @ \ {recipe}
         ]
+
+DownloadRecipes (env, sys) ==
+        \E recipe \in { SetToSeq(env.recipes, <<>>)[i] : i \in 1..Cardinality(env.recipes) }:
+        DownloadRecipe(recipe, env, sys)
+
+
  
 \* The function definition 
 \* PrepareQueueForProductionLocation (boardId, locationId, env, sys) ==
