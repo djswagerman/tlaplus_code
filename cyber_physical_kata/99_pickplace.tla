@@ -1,6 +1,6 @@
 ---- MODULE 99_pickplace --------
 
-EXTENDS Integers, Sequences, FiniteSets, TLC, 99_utils
+EXTENDS Integers, Sequences, FiniteSets, TLC, 99_utils, 99_scheduler
 
 CONSTANT
     ComponentTypes,
@@ -16,7 +16,8 @@ CONSTANT
     ReelIds,
     MaxComponents,
     ProductionLocations,
-    ProductionLocationQueueType
+    ProductionLocationQueueType,
+    Reels
 
 VARIABLES environment, system
 
@@ -117,5 +118,6 @@ MoveBoard(boardId) ==
 
 Next ==
     \/ \E boardId \in BoardIds: MoveBoard(boardId)
+    \/ \E boardId \in BoardIds: SetRecipeForBoard (boardId, environment, system)
 
 =====
