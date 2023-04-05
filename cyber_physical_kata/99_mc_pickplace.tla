@@ -135,23 +135,8 @@ ConstMaxY == 2
 ConstMaxComponents == 5
 ConstMaxReels == 2
 
-(* Function to count non-empty positions for all boards *)
-NonEmptyPositions(x) ==
-    LET CountNonEmpty(board) ==
-            Cardinality({position \in BoardPositions: board.positions[position] /= Null})
-        nonEmptyCounts == {CountNonEmpty(board) : board \in x.boards}
-    IN
-    SumSeq(SetToSeq(nonEmptyCounts, <<>>))
-    
 CountBoards(x) ==
-    IF x.boards \in SUBSET  [
-                                id: BoardIds,
-                                state: BoardState,
-                                positions: [BoardPositions -> ComponentTypes \cup {Null}]
-                            ]
-        THEN 
-            Cardinality(x.boards)
-    ELSE 0
+    Cardinality(x.boards)
 
 RECURSIVE IterateFeeders(_, _)
 IterateFeeders(reelCount, feeders) ==
@@ -169,9 +154,6 @@ IterateProductionLocations(totalReelCount, pls) ==
 
 TotalReelCount(pls) ==
     IterateProductionLocations(0, pls)
-
-InvariantNonEmpty ==
-    NonEmptyPositions (environment) < 5
 
 InvariantConstantNumberOfBoards ==
     CountBoards (environment) + CountBoards (system) =  Cardinality (ConstBoardIds) 

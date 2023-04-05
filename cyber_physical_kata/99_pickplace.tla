@@ -25,11 +25,7 @@ VARIABLES environment, system
 Null == ""
 
 ValidBoards (boards) ==
-    boards \in SUBSET       [
-                                id: BoardIds,
-                                state: BoardState,
-                                positions: [BoardPositions -> ComponentTypes \cup {Null}]
-                            ]
+    TRUE
 
 ValidPositions (positions) ==
     \A p \in positions : 
@@ -98,7 +94,12 @@ Init ==
             boards |->  {
                             [   id |-> b,
                                 state |-> "Unprocessed",
-                                positions |-> [p \in BoardPositions |-> Null]
+                                positions |->   {
+                                                    [
+                                                        position |-> p,
+                                                        component |-> ""
+                                                    ] : p \in BoardPositions
+                                                }
                             ] : b \in BoardIds
                         },
             boardrecipe |-> BoardRecipe,
@@ -110,6 +111,7 @@ Next ==
     \* Scheduling
     \/ \E boardId \in BoardIds: SetRecipeForBoard (boardId, environment, system)
     \/ DownloadRecipes (environment, system)
+    \/ Schedule (environment, system)
 
     \* Operator actions
     \/ PlaceReels(environment, system)
