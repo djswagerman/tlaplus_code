@@ -1,6 +1,6 @@
 ---- MODULE 99_pickplace --------
 
-EXTENDS Integers, Sequences, FiniteSets, TLC, 99_utils, 99_scheduler
+EXTENDS Integers, Sequences, FiniteSets, TLC, 99_utils, 99_scheduler, 99_feeder
 
 CONSTANT
     ComponentTypes,
@@ -17,7 +17,8 @@ CONSTANT
     MaxComponents,
     ProductionLocations,
     ProductionLocationQueueType,
-    Reels
+    Reels,
+    MaxReels
 
 VARIABLES environment, system
 
@@ -78,6 +79,7 @@ TypeInvariantSystem (sys) ==
 TypeInvariantEnvironment (env) ==
     /\ ValidBoards (env.boards)
     /\ ValidRecipes (env.recipes)
+    /\ ValidReels (env.reels)
 
 TypeInvariant ==
     /\ TypeInvariantEnvironment (environment)
@@ -89,7 +91,8 @@ Init ==
             boards |-> {},
             boardrecipe |-> [b \in BoardIds |-> ""],
             recipes |-> {},
-            production_locations |-> ProductionLocations
+            production_locations |-> ProductionLocations,
+            t |-> {}
         ]
     /\ environment =
         [
@@ -100,7 +103,8 @@ Init ==
                             ] : b \in BoardIds
                         },
             boardrecipe |-> BoardRecipe,
-            recipes |-> Recipes
+            recipes |-> Recipes,
+            reels |-> Reels
         ]
 
 GetPositionsForRecipe(x, rid) ==
@@ -119,5 +123,6 @@ MoveBoard(boardId) ==
 Next ==
     \/ \E boardId \in BoardIds: MoveBoard(boardId)
     \/ \E boardId \in BoardIds: SetRecipeForBoard (boardId, environment, system)
+    \/ SelectAndPlaceReel(environment, system)
 
 =====
