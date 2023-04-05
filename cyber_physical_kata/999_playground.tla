@@ -1,41 +1,32 @@
 ----------------- MODULE 999_playground -----------------
 
 EXTENDS Integers, Sequences, FiniteSets, TLC
-CONSTANT ComponentType
+CONSTANT ComponentType, RecordType, ComplexRecordType
 
 VARIABLE 
-    recipe1,
-    recipe2
-
-Positions == positions = {  
-                [x |-> 0, y |-> 0],
-                [x |-> 0, y |-> 1]
-             }
+    queue, count_x, count_y
 
 TypeInvariant ==
-    \A r \in recipe1 :
-        /\ r.position \in Positions
-        /\ r.component \in ComponentType
+    /\ queue \in Seq (ComplexRecordType)
 
 Init ==
-/\    recipe1 = 
-        {
-            [
-                position |-> [x |-> 0, y |-> 0],
-                component |-> "resistor"
-            ],
-            [
-                position |-> [x |-> 0, y |-> 1],
-                component |-> "IC"
-            ]
-        }
-/\    recipe2 = {}
+/\    queue = <<>>
+/\    count_x = 0
+/\    count_y = 0
+     
 
-MoveElement(src, dest, idx) ==
-        /\ src' = [i \in DOMAIN src |-> IF i = idx THEN "REMOVED" ELSE src[i]]
-        /\ dest' = Append(dest, src[idx])
+Add (q) ==
+    /\ Len (q) < 5
+    /\ q' = Append (queue, [component |-> "resistor", position |-> [x |-> count_x, y |-> count_y]])
+    /\ UNCHANGED (<<count_x, count_y>>)
 
 Next ==
-\/ \E r \in recipe1 : MoveElement (recipe1, recipe2, r)
+    \/ Add (queue)
+    \/
+        /\ count_x' = count_x + 1
+        /\ UNCHANGED (<<queue, count_y>>)
+    \/
+        /\ count_y' = count_x + 1
+        /\ UNCHANGED (<<queue, count_y>>)
 
 ====
