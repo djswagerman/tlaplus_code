@@ -89,7 +89,7 @@ ConstProductionLocations ==
                                             }
                                         ]
                                     }
-                            ]
+                            ],
                             [
                                 id |-> "pl2",
                                 feeders |->
@@ -123,7 +123,7 @@ ConstLocationIds == {"pl1", "pl2"}
 
 ConstFeederIds == {"f1", "f2"}
 
-ConstReelIds== {"r1", "r2", "r3", "r4". "r5", "r6"}
+ConstReelIds== {"r1", "r2", "r3", "r4", "r5", "r6"}
 
 
 ConstMaxX == 2
