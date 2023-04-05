@@ -53,36 +53,36 @@ ConstBoardRecipe ==     [
 ConstProductionLocations == 
                         {
                             [
-                                id |-> 1,
+                                id |-> "pl1",
                                 feeders |->
                                     {
                                         [
-                                            id |-> 1,
+                                            id |-> "f1",
                                             reels |->
                                             {
                                                 [
-                                                    id |-> 1,
+                                                    id |-> "r1",
                                                     componentType |-> "Resistor",
                                                     remainingComponents |-> 5
                                                 ],
                                                 [
-                                                    id |-> 2,
+                                                    id |-> "r2",
                                                     componentType |-> "Capacitor",
                                                     remainingComponents |-> 5
                                                 ]
                                             }
                                         ],
                                         [
-                                            id |-> 2,
+                                            id |-> "f2",
                                             reels |->
                                             {
                                                 [
-                                                    id |-> 1,
+                                                    id |-> "r3",
                                                     componentType |-> "Inductor",
                                                     remainingComponents |-> 5
                                                 ],
                                                 [
-                                                    id |-> 2,
+                                                    id |-> "r4",
                                                     componentType |-> "Diode",
                                                     remainingComponents |-> 5
                                                 ]
@@ -97,16 +97,16 @@ ConstProductionLocations ==
 
 ConstBoardState ==  {"Unprocessed", "Processing", "Processed"}
 
-ConstLocationIds == {"production location 1", "production_location 2"}
+ConstLocationIds == {"pl1", "pl2"}
 
 ConstFeederIds == {"f1", "f2"}
 
-ConstReelIds== {"r1", "r2"}
+ConstReelIds== {"r1", "r2", "r3", "r4"}
 
 
 ConstMaxX == 2
 ConstMaxY == 2
-ConstMaxComponents == 3
+ConstMaxComponents == 5
 
 (* Function to count non-empty positions for all boards *)
 NonEmptyPositions(x) ==

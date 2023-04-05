@@ -28,43 +28,41 @@ ValidBoards (boards) ==
                                 positions: [BoardPositions -> ComponentTypes \cup {Null}]
                             ]
 
+ValidPositions (positions) ==
+    \A p \in positions : 
+        /\ p.component \in ComponentTypes \cup {Null}
+
 ValidRecipes (recipes) ==
-    recipes \in SUBSET      [
-                                id: RecipeIds,
-                                positions:
-                                        [
-                                            SUBSET
-                                            {
-                                                [   position |-> p,
-                                                    component |-> c
-                                                ] : p \in BoardPositions, c \in ComponentTypes \cup {Null}
-                                            } -> ComponentTypes \cup {Null}
-                                        ]
-                            ]
+    \A r \in recipes : 
+        /\ r.id \in RecipeIds
+        /\ ValidPositions (r.positions)
+
 
 ValidBoardRecipe (boardrecipe) ==
      boardrecipe \in        [
                                 BoardIds -> STRING
                             ] \cup { [b \in BoardIds |-> ""] }
 
+ValidReel (reel) ==
+    /\ reel.id \in ReelIds
+    /\ reel.componentType \in ComponentTypes \cup {Null}
+    /\ reel.remainingComponents <= MaxComponents
+
+ValidReels (reels) == 
+    \A r \in reels :
+        /\ ValidReel (r)
+
+ValidFeeder (feeder) == 
+    /\ feeder.id \in FeederIds
+    /\ ValidReels (feeder.reels)
+
+ValidFeeders (feeders) == 
+    \A f \in feeders : ValidFeeder (f)
+
 ValidProductionLocations (production_locations) ==
-    production_locations \in SUBSET
-                            [
-                                id: LocationIds,
-                                feeders:
-                                [
-                                    id : FeederIds,
-                                    reels:
-                                        SUBSET
-                                        {
-                                            [
-                                                id : ReelIds,
-                                                componentType : ComponentTypes,
-                                                remainingComponents : MaxComponents
-                                            ]
-                                        }
-                                ]
-                            ]
+    \A pl \in production_locations:
+        /\ pl.id \in LocationIds
+        /\ ValidFeeders (pl.feeders) 
 
 TypeInvariantSystem (sys) ==
     /\ ValidBoards (sys.boards)
