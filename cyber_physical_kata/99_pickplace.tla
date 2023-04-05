@@ -1,6 +1,6 @@
 ---- MODULE 99_pickplace --------
 
-EXTENDS Integers, Sequences, FiniteSets, TLC, 99_utils, 99_scheduler, 99_feeder
+EXTENDS Integers, Sequences, FiniteSets, TLC, 99_utils, 99_scheduler, 99_feeder, 99_transport
 
 CONSTANT
     ComponentTypes,
@@ -107,22 +107,14 @@ Init ==
             reels |-> Reels
         ]
 
-GetPositionsForRecipe(x, rid) ==
-    LET selectedRecipe == CHOOSE r \in x.recipes : r.id = rid
-    IN selectedRecipe.positions
-    
-MoveBoard(boardId) ==
-    /\ \E board \in environment.boards : board.id = boardId
-    /\ LET movedBoard == CHOOSE board \in environment.boards : board.id = boardId
-         updatedEnvironment == [environment EXCEPT !.boards = @ \ {movedBoard}]
-         updatedSystem == [system EXCEPT !.boards = @ \cup {movedBoard}]
-     IN
-     /\ environment' = updatedEnvironment
-     /\ system' = updatedSystem
-
 Next ==
-    \/ \E boardId \in BoardIds: MoveBoard(boardId)
+    \* Transport
+    \/ \E boardId \in BoardIds: MoveBoard(boardId, environment, system)
+
+    \* Scheduling
     \/ \E boardId \in BoardIds: SetRecipeForBoard (boardId, environment, system)
-    \/ SelectAndPlaceReel(environment, system)
+
+    \* Operator actions
+    \/ PlaceReel(environment, system)
 
 =====
