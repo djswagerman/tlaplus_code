@@ -78,11 +78,6 @@ ConstProductionLocations ==
                                         [
                                             id |-> "f1",
                                             reels |-> {}
-                                        ],
-                                        [
-                                            id |-> "f2",
-                                            reels |-> {}
-
                                         ]
                                     }
                             ],
@@ -93,7 +88,7 @@ ConstProductionLocations ==
                                 feeders |->
                                     {
                                         [
-                                            id |-> "f3",
+                                            id |-> "f2",
                                             reels |-> {}
                                         ]
                                     }
@@ -109,7 +104,7 @@ ConstLocationIds == {"pl1", "pl2"}
 
 ConstFeederIds == {"f1", "f2", "f3"}
 
-ConstReelIds== {"r1", "r2", "r3", "r4", "r5", "r6"}
+ConstReelIds== {"r1", "r2", "r3", "r4"}
 
 ConstReels == 
                         {
@@ -125,22 +120,12 @@ ConstReels ==
                             ],
                             [
                                 id |-> "r3",
-                                componentType |-> "Resistor",
+                                componentType |-> "Transistor",
                                 remainingComponents |-> 5
                             ],
                             [
                                 id |-> "r4",
                                 componentType |-> "Diode",
-                                remainingComponents |-> 5
-                            ],
-                            [
-                                id |-> "r5",
-                                componentType |-> "IC",
-                                remainingComponents |-> 5
-                            ],
-                            [
-                                id |-> "r6",
-                                componentType |-> "Capacitor",
                                 remainingComponents |-> 5
                             ]
                         }
@@ -148,6 +133,7 @@ ConstReels ==
 ConstMaxX == 2
 ConstMaxY == 2
 ConstMaxComponents == 5
+ConstMaxReels == 2
 
 (* Function to count non-empty positions for all boards *)
 NonEmptyPositions(x) ==
@@ -167,11 +153,31 @@ CountBoards(x) ==
             Cardinality(x.boards)
     ELSE 0
 
+RECURSIVE IterateFeeders(_, _)
+IterateFeeders(reelCount, feeders) ==
+    IF feeders = {}
+    THEN reelCount
+    ELSE LET feeder == CHOOSE f \in feeders: TRUE
+         IN IterateFeeders(reelCount + Cardinality(feeder.reels), feeders \ {feeder})
+
+RECURSIVE IterateProductionLocations(_, _)
+IterateProductionLocations(totalReelCount, pls) ==
+    IF pls = {}
+    THEN totalReelCount
+    ELSE LET pl == CHOOSE p \in pls: TRUE
+         IN IterateProductionLocations(totalReelCount + IterateFeeders(0, pl.feeders), pls \ {pl})
+
+TotalReelCount(pls) ==
+    IterateProductionLocations(0, pls)
 
 InvariantNonEmpty ==
     NonEmptyPositions (environment) < 5
 
 InvariantConstantNumberOfBoards ==
     CountBoards (environment) + CountBoards (system) =  Cardinality (ConstBoardIds) 
+
+InvariantReels == 
+    Cardinality (environment.reels) + TotalReelCount (system.production_locations) = Cardinality (ConstReels)
+
 
 ====
