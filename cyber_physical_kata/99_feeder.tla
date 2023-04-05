@@ -2,7 +2,7 @@
 
 EXTENDS Integers, Sequences, FiniteSets, TLC
 
-SelectAndPlaceReel (env, sys) ==
+PlaceReel (env, sys) ==
     \E reel \in env.reels:
         \E pl \in sys.production_locations:
             \E feeder \in pl.feeders:
