@@ -85,7 +85,8 @@ Init ==
     /\ system =
         [
             boards |-> {},
-            boardrecipe |-> [b \in BoardIds |-> ""],
+            boardrecipe_name |-> [b \in BoardIds |-> ""],
+            boardrecipes |-> {},
             recipes |-> {},
             production_locations |-> ProductionLocations
         ]
@@ -93,7 +94,7 @@ Init ==
         [
             boards |->  {
                             [   id |-> b,
-                                state |-> "Unprocessed",
+                                state |-> "Unscheduled",
                                 positions |->   {
                                                     [
                                                         position |-> p,
@@ -102,14 +103,14 @@ Init ==
                                                 }
                             ] : b \in BoardIds
                         },
-            boardrecipe |-> BoardRecipe,
+            boardrecipe_name |-> BoardRecipe,
             recipes |-> Recipes,
             reels |-> Reels
         ]
 
 Next ==
     \* Scheduling
-    \/ \E boardId \in BoardIds: SetRecipeForBoard (boardId, environment, system)
+    \/ \E boardId \in BoardIds: SetRecipeNameForBoard (boardId, environment, system)
     \/ DownloadRecipes (environment, system)
     \/ Schedule (environment, system)
 

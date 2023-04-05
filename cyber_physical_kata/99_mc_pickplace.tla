@@ -98,7 +98,7 @@ ConstProductionLocations ==
 
 
 
-ConstBoardState ==  {"Unprocessed", "Processing", "Processed"}
+ConstBoardState ==  {"Unscheduled", "Scheduled", "Processing", "Processed"}
 
 ConstLocationIds == {"pl1", "pl2"}
 
