@@ -15,7 +15,8 @@ CONSTANT
     FeederIds,
     ReelIds,
     MaxComponents,
-    ProductionLocations
+    ProductionLocations,
+    ProductionLocationQueueType
 
 VARIABLES environment, system
 
@@ -59,9 +60,13 @@ ValidFeeder (feeder) ==
 ValidFeeders (feeders) == 
     \A f \in feeders : ValidFeeder (f)
 
+ValidQueue (queue) ==
+    queue \in Seq (ProductionLocationQueueType)
+
 ValidProductionLocations (production_locations) ==
     \A pl \in production_locations:
         /\ pl.id \in LocationIds
+        /\ ValidQueue (pl.queue) 
         /\ ValidFeeders (pl.feeders) 
 
 TypeInvariantSystem (sys) ==

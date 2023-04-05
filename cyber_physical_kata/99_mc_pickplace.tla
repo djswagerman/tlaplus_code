@@ -50,10 +50,29 @@ ConstBoardRecipe ==     [
                                 ELSE ""
                         ]
 
+
+ConstProductionLocationQueueType    ==
+                            {
+                                [
+                                    boardId |-> id,
+                                    component |-> c,
+                                    position |-> p
+                                ] : id \in BoardIds, c \in ConstComponentTypes, p \in  {[x |-> a, y |-> b] : a, b \in 0..3}
+                            }
+
+
 ConstProductionLocations == 
                         {
                             [
                                 id |-> "pl1",
+                                queue |->   <<
+                                                [
+                                                    boardId |-> "b3",
+                                                    component |-> "Resistor",
+                                                    position |-> [x |-> 0, y |-> 0]
+                                                ]
+                                            >>,
+                                boardId |-> "",
                                 feeders |->
                                     {
                                         [
@@ -92,6 +111,8 @@ ConstProductionLocations ==
                             ],
                             [
                                 id |-> "pl2",
+                                queue |-> <<>>,
+                                boardId |-> "",
                                 feeders |->
                                     {
                                         [
