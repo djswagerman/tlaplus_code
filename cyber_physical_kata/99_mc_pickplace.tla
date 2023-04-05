@@ -2,7 +2,7 @@
 
 EXTENDS 99_pickplace, TLC
 
-ConstComponentTypes == {"Resistor", "Capacitor", "Inductor", "Diode", "IC"}
+ConstComponentTypes == {"Resistor", "Capacitor", "Transistor", "Diode", "IC"}
 ConstBoardIds == {"b1", "b2","b3", "b4"}
 ConstRobotIds== {"r1", "r2","r3", "r4"}
 ConstRecipeIds == {"Recipe1", "Recipe2", "Recipe3"}
@@ -78,12 +78,34 @@ ConstProductionLocations ==
                                             {
                                                 [
                                                     id |-> "r3",
-                                                    componentType |-> "Inductor",
+                                                    componentType |-> "Resistor",
                                                     remainingComponents |-> 5
                                                 ],
                                                 [
                                                     id |-> "r4",
                                                     componentType |-> "Diode",
+                                                    remainingComponents |-> 5
+                                                ]
+                                            }
+                                        ]
+                                    }
+                            ]
+                            [
+                                id |-> "pl2",
+                                feeders |->
+                                    {
+                                        [
+                                            id |-> "f1",
+                                            reels |->
+                                            {
+                                                [
+                                                    id |-> "r5",
+                                                    componentType |-> "IC",
+                                                    remainingComponents |-> 5
+                                                ],
+                                                [
+                                                    id |-> "r6",
+                                                    componentType |-> "Capacitor",
                                                     remainingComponents |-> 5
                                                 ]
                                             }
@@ -101,7 +123,7 @@ ConstLocationIds == {"pl1", "pl2"}
 
 ConstFeederIds == {"f1", "f2"}
 
-ConstReelIds== {"r1", "r2", "r3", "r4"}
+ConstReelIds== {"r1", "r2", "r3", "r4". "r5", "r6"}
 
 
 ConstMaxX == 2
