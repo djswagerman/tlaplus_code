@@ -116,5 +116,7 @@ Next ==
 
     \* Operator actions
     \/ PlaceReel(environment, system)
+    \/ \E recipe \in { SetToSeq(environment.recipes, <<>>)[i] : i \in 1..Cardinality(environment.recipes) }:
+        DownloadRecipe(recipe, environment, system)
 
 =====

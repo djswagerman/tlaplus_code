@@ -8,6 +8,15 @@ SetRecipeForBoard(boardId, env, sys) ==
     /\ sys' = [sys EXCEPT !.boardrecipe[boardId] = env.boardrecipe[boardId]]
     /\ UNCHANGED (env)
 
+
+DownloadRecipe (recipe, env, sys) ==
+    /\ sys' =   [
+                        sys EXCEPT !.recipes = @ \union {recipe}
+                ]
+    /\ env' =  [
+            env EXCEPT !.recipes = @ \ {recipe}
+        ]
+ 
 \* The function definition 
 \* PrepareQueueForProductionLocation (boardId, locationId, env, sys) ==
 
