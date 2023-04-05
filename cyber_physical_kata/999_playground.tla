@@ -13,7 +13,12 @@ Init ==
 /\    queue = <<>>
 /\    count_x = 0
 /\    count_y = 0
-     
+
+tupleWithRecords == <<
+  [name |-> "Alice", age |-> 30],
+  [name |-> "Bob", age |-> 25],
+  [name |-> "Charlie", age |-> 20]
+>>     
 
 Add (q) ==
     /\ Len (q) < 5
@@ -27,6 +32,6 @@ Next ==
         /\ UNCHANGED (<<queue, count_y>>)
     \/
         /\ count_y' = count_x + 1
-        /\ UNCHANGED (<<queue, count_y>>)
+        /\ UNCHANGED (<<queue, count_x>>)
 
 ====

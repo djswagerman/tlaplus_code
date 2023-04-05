@@ -14,10 +14,7 @@ ConstComplexRecordType    ==
                                 [
                                     component |-> c,
                                     position |-> p
-                                ] : c \in ConstComponentType, p \in  {
-                                            [x |-> a, y |-> b] : a, b \in 0..3
-                                        }
-
+                                ] : c \in ConstComponentType, p \in  {[x |-> a, y |-> b] : a, b \in 0..3}
                             }
 
 =====
