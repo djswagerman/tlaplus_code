@@ -68,20 +68,3 @@ PrepareBoardForProductionLocation (board, pl, env, sys) ==
 Schedule (env, sys) ==
     \/ \E board \in sys.boards : PrepareBoardRecipe (board, env, sys)
     \/ \E board \in sys.boardrecipes, pl \in sys.production_locations: PrepareBoardForProductionLocation (board, pl, env, sys)
-    
-
-        \* /\  \E recipe \in sys.recipes :
-        \*         \E pl \in sys.production_locations :
-        \*             \E feeder \in pl.feeders :
-        \*                 \E reel \in feeder.reels :
-        \*                     \E recipe_position \in recipe.positions :
-        \*                         \E board_position \in board.positions :
-        \*                             /\ recipe_position.component = reel.componentType
-        \*                             /\ recipe_position.position = board_position.position
-        \*                             /\ LET br == sys.boardrecipe[board.id]
-        \*                                 IN   
-        \*                                     /\ br # ""
-        \*                                     /\ recipe.id = br
-        \*                                     /\ env' = <<board, recipe, pl, feeder, reel, recipe_position.position, board_position.position, br>>
-
-====
