@@ -29,14 +29,16 @@ PrepareBoardRecipe (board, env, sys) ==
                 /\ recipe.id = br
                 /\ LET updatedBoard == [board EXCEPT !.state = "Scheduled"]
                        updatedBoards == (sys.boards \ {board}) \union {updatedBoard}
-                       scheduledBoard ==    [
+                       scheduledBoard == [
                                                 id |-> board.id,
                                                 state |-> "Scheduled",
                                                 positions |-> recipe.positions
                                             ]
-                    IN  /\ sys' = [[sys EXCEPT !.boardrecipes = @ \union {scheduledBoard}]
-                                    EXCEPT !.boards = updatedBoards]
+                    IN  /\ sys' = [sys EXCEPT
+                                     !.boardrecipes = @ \union {scheduledBoard},
+                                     !.boards = updatedBoards]
                         /\ UNCHANGED (env)
+
 
 PrepareBoardPositionForProductionLocation (brd, pos, pl, env, sys) ==
     /\ pos.state = "Unscheduled"
@@ -46,16 +48,18 @@ PrepareBoardPositionForProductionLocation (brd, pos, pl, env, sys) ==
             /\  LET updatePosition == [pos EXCEPT !.state = "Scheduled"]
                     updatedBoard == [brd EXCEPT !.positions = (brd.positions \ {pos}) \union {updatePosition}]
                     updatedBoards == (sys.boardrecipes \ {brd}) \union {updatedBoard}
-                    scheduledPosition ==     [
+                    scheduledPosition == [
                                                 boardId |-> brd.id,
                                                 component |-> pos.component,
                                                 position |-> pos.position
                                              ]
                     updatedProductionLocation == [pl EXCEPT !.queue = Append(pl.queue, scheduledPosition)]
                     updatedProductionLocations == (sys.production_locations \ {pl}) \union {updatedProductionLocation}
-                IN sys' = [[sys EXCEPT !.production_locations = updatedProductionLocations]
-                            EXCEPT !.boardrecipes = updatedBoards]
+                IN sys' = [sys EXCEPT
+                                !.production_locations = updatedProductionLocations,
+                                !.boardrecipes = updatedBoards]
                         /\ UNCHANGED (env)
+
     
 PrepareBoardForProductionLocation (board, pl, env, sys) ==
     /\ board.state = "Scheduled"
