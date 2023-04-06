@@ -8,37 +8,29 @@ ConstRobotIds== {"r1", "r2","r3", "r4"}
 ConstRecipeIds == {"Recipe1", "Recipe2", "Recipe3"}
 ConstBoardPositions ==  {
                             [x |-> 0, y |-> 0],
-                            [x |-> 0, y |-> 1],
-                            [x |-> 1, y |-> 0],
-                            [x |-> 1, y |-> 1]
+                            [x |-> 0, y |-> 1]
                         }
 
 ConstRecipes ==     {
                         [
                             id |-> "Recipe1",
                             positions |-> {
-                                [position |-> [x |-> 0, y |-> 0], component |-> "Resistor"],
-                                [position |-> [x |-> 0, y |-> 1], component |-> "Capacitor"],
-                                [position |-> [x |-> 1, y |-> 0], component |-> "IC"],
-                                [position |-> [x |-> 1, y |-> 1], component |-> ""]
+                                [state |-> "Unscheduled", position |-> [x |-> 0, y |-> 0], component |-> "Resistor"],
+                                [state |-> "Unscheduled", position |-> [x |-> 0, y |-> 1], component |-> "Capacitor"]
                             }
                         ],
                         [
                             id |-> "Recipe2",
                             positions |-> {
-                                [position |-> [x |-> 0, y |-> 0], component |-> "IC"],
-                                [position |-> [x |-> 0, y |-> 1], component |-> ""],
-                                [position |-> [x |-> 1, y |-> 0], component |-> "Resistor"],
-                                [position |-> [x |-> 1, y |-> 1], component |-> "Capacitor"]
+                                [state |-> "Unscheduled", position |-> [x |-> 0, y |-> 0], component |-> "Transistor"],
+                                [state |-> "Unscheduled", position |-> [x |-> 0, y |-> 1], component |-> ""]
                             }
                         ],
                         [
                             id |-> "Recipe3",
                             positions |-> {
-                                [position |-> [x |-> 0, y |-> 0], component |-> ""],
-                                [position |-> [x |-> 0, y |-> 1], component |-> "IC"],
-                                [position |-> [x |-> 1, y |-> 0], component |-> "Capacitor"],
-                                [position |-> [x |-> 1, y |-> 1], component |-> "Resistor"]
+                                [state |-> "Unscheduled", position |-> [x |-> 0, y |-> 0], component |-> ""],
+                                [state |-> "Unscheduled", position |-> [x |-> 0, y |-> 1], component |-> "Diode"]
                             }
                         ]
                     }
@@ -65,13 +57,7 @@ ConstProductionLocations ==
                         {
                             [
                                 id |-> "pl1",
-                                queue |->   <<
-                                                [
-                                                    boardId |-> "b3",
-                                                    component |-> "Resistor",
-                                                    position |-> [x |-> 0, y |-> 0]
-                                                ]
-                                            >>,
+                                queue |->   <<>>,
                                 boardId |-> "",
                                 feeders |->
                                     {

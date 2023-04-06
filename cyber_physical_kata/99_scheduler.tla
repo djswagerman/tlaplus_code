@@ -19,18 +19,14 @@ DownloadRecipe (recipe, env, sys) ==
 
 DownloadRecipes (env, sys) ==
         \E recipe \in { SetToSeq(env.recipes, <<>>)[i] : i \in 1..Cardinality(env.recipes) }:
-        DownloadRecipe(recipe, env, sys)
+            DownloadRecipe(recipe, env, sys)
 
-ScheduleBoardPosition (board_position, env, sys) == 
-    /\ board_position.state = "Unscheduled"
-    /\ env' = board_position
-
-
-ScheduleBoard (board, env, sys) ==
+PrepareBoardRecipe (board, env, sys) ==
     /\ board.state = "Unscheduled"
     /\ LET br == sys.boardrecipe_name[board.id]
         IN  /\  br # ""
             /\  \E recipe \in sys.recipes :
+                /\ recipe.id = br
                 /\ LET updatedBoard == [board EXCEPT !.state = "Scheduled"]
                        updatedBoards == (sys.boards \ {board}) \union {updatedBoard}
                        scheduledBoard ==    [
@@ -42,20 +38,32 @@ ScheduleBoard (board, env, sys) ==
                                     EXCEPT !.boards = updatedBoards]
                         /\ UNCHANGED (env)
 
-\* /\  LET updatedFeeder ==
-\*                         [feeder EXCEPT !.reels = feeder.reels \union {reel}]
-\*                     IN LET updatedFeeders ==
-\*                         (pl.feeders \ {feeder}) \union {updatedFeeder}
-\*                     IN LET updatedProductionLocation ==
-\*                         [pl EXCEPT !.feeders = updatedFeeders]
-\*                     IN sys' = [
-\*                         sys EXCEPT
-\*                         !.production_locations = (sys.production_locations
-\*                             \ {pl}) \union {updatedProductionLocation}
-\*    /\ \E board_position \in board.positions : ScheduleBoardPosition (board_position, env, sys)
-
+PrepareBoardPositionForProductionLocation (brd, pos, pl, env, sys) ==
+    /\ pos.state = "Unscheduled"
+    /\ \E feeder \in pl.feeders :
+        \E reel \in feeder.reels :
+            /\ pos.component = reel.componentType
+            /\  LET updatePosition == [pos EXCEPT !.state = "Scheduled"]
+                    updatedBoard == [brd EXCEPT !.positions = (brd.positions \ {pos}) \union {updatePosition}]
+                    updatedBoards == (sys.boardrecipes \ {brd}) \union {updatedBoard}
+                    scheduledPosition ==     [
+                                                boardId |-> brd.id,
+                                                component |-> pos.component,
+                                                position |-> pos.position
+                                             ]
+                    updatedProductionLocation == [pl EXCEPT !.queue = Append(pl.queue, scheduledPosition)]
+                    updatedProductionLocations == (sys.production_locations \ {pl}) \union {updatedProductionLocation}
+                IN sys' = [[sys EXCEPT !.production_locations = updatedProductionLocations]
+                            EXCEPT !.boardrecipes = updatedBoards]
+                        /\ UNCHANGED (env)
+    
+PrepareBoardForProductionLocation (board, pl, env, sys) ==
+    /\ board.state = "Scheduled"
+    /\ \E position \in board.positions : PrepareBoardPositionForProductionLocation (board, position, pl, env, sys) 
+  
 Schedule (env, sys) ==
-    /\ \E board \in sys.boards : ScheduleBoard (board, env, sys)
+    \/ \E board \in sys.boards : PrepareBoardRecipe (board, env, sys)
+    \/ \E board \in sys.boardrecipes, pl \in sys.production_locations: PrepareBoardForProductionLocation (board, pl, env, sys)
     
 
         \* /\  \E recipe \in sys.recipes :
