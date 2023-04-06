@@ -68,3 +68,5 @@ PrepareBoardForProductionLocation (board, pl, env, sys) ==
 Schedule (env, sys) ==
     \/ \E board \in sys.boards : PrepareBoardRecipe (board, env, sys)
     \/ \E board \in sys.boardrecipes, pl \in sys.production_locations: PrepareBoardForProductionLocation (board, pl, env, sys)
+
+====
