@@ -1,6 +1,6 @@
------------------ MODULE 8_mc_insert_is_exchange -----------------
+----------------- MODULE 09_mc_returning_exchange -----------------
 
-EXTENDS 8_insert_is_exchange 
+EXTENDS 09_returning_exchange 
 
 const_customer_names == {"c1"}
 const_vending_machine_names == {"v1"}

@@ -1,6 +1,6 @@
------------------ MODULE 7_mc_first_action -----------------
+----------------- MODULE 07_mc_first_action -----------------
 
-EXTENDS 7_first_action 
+EXTENDS 07_first_action 
 
 const_customer_names == {"c1"}
 const_vending_machine_names == {"v1"}

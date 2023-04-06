@@ -1,4 +1,4 @@
---------------------------- MODULE 7_first_action ---------------------------
+-------------------------- MODULE 06_first_property --------------------------
 EXTENDS Naturals, TLC
 
 CONSTANT customer_names, vending_machine_names, min_coin_stock, max_coin_stock, min_product_stock, max_product_stock, products, cointypes
@@ -60,16 +60,11 @@ Init ==
                                             ]
                                         ]
 
-InsertCoin (vending_machine_name, coin) == 
-                                vending_machines' = [vending_machines EXCEPT ![vending_machine_name].assets.credit[coin] = @ + 1]
-
-
-InsertCredit (customer_name, vending_machine_name) ==
-                                /\ \E coin \in cointypes : InsertCoin (vending_machine_name, coin)
-                                /\ UNCHANGED <<customers>>
-
 Next ==
-                               \/ \E customer_name \in customer_names, vending_machine_name \in vending_machine_names : InsertCredit (customer_name, vending_machine_name)
+                               /\ PrintT (customers)
+                               /\ UNCHANGED <<vars>>
+\*                               /\ customers' = [customers EXCEPT !["c1"].assets.credit[50] = 2]
+\*                               /\ UNCHANGED <<vending_machines>>
                                         
 AssetValueIsConstant ==         []  [   TotalAssetValue (customers, customer_names) + 
                                             TotalAssetValue (vending_machines, vending_machine_names) = 
@@ -79,7 +74,7 @@ AssetValueIsConstant ==         []  [   TotalAssetValue (customers, customer_nam
 
 =============================================================================
 \* Modification History
-\* Last modified Tue May 17 08:34:33 CEST 2022 by dirk-janswagerman
+\* Last modified Tue May 17 08:25:37 CEST 2022 by dirk-janswagerman
 \* Created Tue May 17 08:06:17 CEST 2022 by dirk-janswagerman
 
 

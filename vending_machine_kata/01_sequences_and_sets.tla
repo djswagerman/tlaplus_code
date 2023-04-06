@@ -1,4 +1,4 @@
------------------------- MODULE 1_sequences_and_sets ------------------------
+------------------------ MODULE 01_sequences_and_sets ------------------------
 EXTENDS FiniteSets, Sequences, TLC
 
 VARIABLES

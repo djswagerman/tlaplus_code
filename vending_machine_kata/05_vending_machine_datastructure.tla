@@ -1,4 +1,4 @@
------------------- MODULE 5_vending_machine_datastructure ------------------
+------------------ MODULE 05_vending_machine_datastructure ------------------
 EXTENDS Naturals, TLC
 
 

@@ -1,4 +1,4 @@
------------------------- MODULE 8_insert_is_exchange ------------------------
+------------------------ MODULE 08_insert_is_exchange ------------------------
 EXTENDS Naturals, TLC
 
 CONSTANT customer_names, vending_machine_names, min_coin_stock, max_coin_stock, min_product_stock, max_product_stock, products, cointypes

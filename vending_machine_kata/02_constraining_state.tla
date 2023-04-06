@@ -1,4 +1,4 @@
------------------------- MODULE 2_constraining_state ------------------------
+------------------------ MODULE 02_constraining_state ------------------------
 EXTENDS Naturals
 
 VARIABLE

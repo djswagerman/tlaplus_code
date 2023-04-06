@@ -1,4 +1,4 @@
--------------------- MODULE 3_constraining_state_part_3 --------------------
+-------------------- MODULE 03_constraining_state_part_3 --------------------
 EXTENDS Naturals
 CONSTANTS
     min_value,

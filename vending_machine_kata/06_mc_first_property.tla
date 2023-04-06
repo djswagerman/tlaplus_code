@@ -1,6 +1,6 @@
------------------ MODULE 6_mc_first_property -----------------
+----------------- MODULE 06_mc_first_property -----------------
 
-EXTENDS 6_first_property 
+EXTENDS 06_first_property 
 
 const_customer_names == {"c1"}
 const_vending_machine_names == {"v1"}

@@ -1,4 +1,4 @@
------------------------ MODULE 4_simple_state_machine -----------------------
+----------------------- MODULE 04_simple_state_machine -----------------------
 EXTENDS FiniteSets, TLC
 
 VARIABLE

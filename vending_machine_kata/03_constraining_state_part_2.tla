@@ -1,4 +1,4 @@
--------------------- MODULE 3_constraining_state_part_2 --------------------
+-------------------- MODULE 03_constraining_state_part_2 --------------------
 
 EXTENDS Naturals
 CONSTANTS

@@ -1,6 +1,6 @@
------------------ MODULE 5_mc_vending_machine_datastructure_2 -----------------
+----------------- MODULE 05_mc_vending_machine_datastructure_2 -----------------
 
-EXTENDS 5_vending_machine_datastructure_2 
+EXTENDS 05_vending_machine_datastructure_2 
 
 const_customer_names == {"c1"}
 const_vending_machine_names == {"v1"}
